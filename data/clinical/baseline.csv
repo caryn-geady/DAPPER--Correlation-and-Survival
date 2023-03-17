@@ -1,0 +1,31 @@
+Subject,Age,Gender,Lesions Contoured,Race,Performance Status (ECOG),Primary Diagnosis Disease Group,Diagnosis,Assigned Treatment Arm,Best Response RECISTv1,Gr1 Gr2 Toxicities,Gr3 Toxicities
+DAP-A-003,58,Female,3,White,1,Uterine Cancer,Uterine Cancer,Cohort A,,Yes,No
+DAP-A-007,49,Female,2,Asian,1,Uterine Cancer,Uterine Cancer,Cohort A,SD,Yes,No
+DAP-A-009,59,Female,7,White,1,,Other/Missing,Cohort A,SD,Yes,Yes
+DAP-A-010,62,Female,4,White,0,Uterine Cancer,Uterine Cancer,Cohort A,PD,Yes,Yes
+DAP-A-012,53,Female,6,White,0,Uterine Cancer,Uterine Cancer,Cohort A,PD,Yes,No
+DAP-A-014,75,Male,6,White,1,Gastroesophageal Cancer,Other/Missing,Cohort A,PD,Yes,No
+DAP-A-017,44,Female,6,White,0,,Other/Missing,Cohort A,SD,Yes,No
+DAP-A-019,42,Female,4,White,0,Uterine Cancer,Uterine Cancer,Cohort A,PR,Yes,No
+DAP-A-022,51,Female,4,Asian,1,Uterine Cancer,Uterine Cancer,Cohort A,PD,Yes,Yes
+DAP-A-025,57,Female,9,White,0,Non-Rhabdomyosarcoma Soft Tissue Sarcoma,Other/Missing,Cohort A,SD,Yes,No
+DAP-A-036,57,Female,3,White,0,Uterine Cancer,Uterine Cancer,Cohort A,SD,Yes,No
+DAP-A-037,61,Female,16,White,0,Uterine Cancer,Uterine Cancer,Cohort A,PD,Yes,No
+DAP-A-038,53,Female,4,White,0,Uterine Cancer,Uterine Cancer,Cohort A,PD,Yes,No
+DAP-A-039,56,Female,11,Asian,1,Uterine Cancer,Uterine Cancer,Cohort A,PD,Yes,No
+DAP-A-040,45,Male,4,White,1,,Other/Missing,Cohort A,PD,No,No
+DAP-B-002,45,Female,7,White,1,,Other/Missing,Cohort B,PD,Yes,No
+DAP-B-003,52,Female,3,White,1,Uterine Cancer,Uterine Cancer,Cohort B,PD,Yes,No
+DAP-B-006,49,Female,3,Asian,1,Uterine Cancer,Uterine Cancer,Cohort B,PD,Yes,No
+DAP-B-007,39,Female,7,Asian,0,,Other/Missing,Cohort B,PD,Yes,No
+DAP-B-011,70,Female,2,White,1,,Other/Missing,Cohort B,SD,Yes,No
+DAP-B-013,46,Female,5,White,1,,Other/Missing,Cohort B,SD,Yes,No
+DAP-B-016,61,Female,15,White,0,,Other/Missing,Cohort B,PD,Yes,No
+DAP-B-017,72,Female,6,White,1,Uterine Cancer,Uterine Cancer,Cohort B,PD,Yes,No
+DAP-B-019,59,Female,4,Black or African American,1,,Other/Missing,Cohort B,,Yes,Yes
+DAP-B-024,43,Female,6,White,0,Uterine Cancer,Uterine Cancer,Cohort B,PD,No,No
+DAP-B-027,64,Female,15,White,0,,Other/Missing,Cohort B,PD,Yes,No
+DAP-B-031,50,Female,6,White,0,,Other/Missing,Cohort B,SD,Yes,No
+DAP-B-032,57,Female,7,White,0,Uterine Cancer,Uterine Cancer,Cohort B,SD,Yes,No
+DAP-B-038,50,Female,13,White,1,Uterine Cancer,Uterine Cancer,Cohort B,PR,Yes,No
+DAP-B-040,69,Female,4,White,1,Uterine Cancer,Uterine Cancer,Cohort B,PD,Yes,No

@@ -1,0 +1,64 @@
+---
+title: "DAPPER Survival in R"
+output: html_notebook
+---
+
+
+```{r}
+# load required packages
+library(survival)
+library(survminer)
+library(dplyr)
+library(xlsx)
+```
+
+```{r}
+# load the data
+surv_dat <- read.csv(file = 'data/clinical/survival.csv')
+features <- read.csv(file = 'data/results/reduced-feature-set.csv')
+features <- features[-1]
+covariates <- colnames(features)
+covariates <- covariates[-1]
+
+```
+
+```{r}
+# define and apply mean/sd normalization to all features
+mu_stdev_scl <- function(x) {(x - mean(x)) / sd(x)}
+meansd_features <- as.data.frame(lapply(features, mu_stdev_scl))
+```
+
+```{r}
+# create the survival objects for OS and PFS
+surv_object_OS <- Surv(time = surv_dat$OS_time, event = surv_dat$OS_status)
+surv_object_PFS <- Surv(time = surv_dat$PFS_time_RECISTv1, event = surv_dat$PFS_status_RECISTv1) 
+```
+
+```{r}
+# create and apply the univariate models
+univ_formulas <- sapply(covariates[2:length(covariates)], function(x) as.formula(paste('surv_object_OS~', x)))
+univ_models <- lapply(univ_formulas, function(x){coxph(x, data = meansd_features)})
+```
+
+```{r}
+# extract the data 
+univ_results <- lapply(univ_models,
+                       function(x){ 
+                          x <- summary(x)
+                          p.value<-signif(x$wald["pvalue"], digits=2)
+                          wald.test<-signif(x$wald["test"], digits=2)
+                          beta<-signif(x$coef[1], digits=2);        #coefficient beta
+                          ci <- signif(x$concordance[1], digits=2)  #concordance index
+                          HR <-signif(x$coef[2], digits=2);         #exp(beta)
+                          HR.confint.lower <- signif(x$conf.int[,"lower .95"], 2)
+                          HR.confint.upper <- signif(x$conf.int[,"upper .95"],2)
+                          HR <- paste0(HR, " (", 
+                                       HR.confint.lower, "-", HR.confint.upper, ")")
+                          res<-c(beta, HR, wald.test, p.value,ci)
+                          names(res)<-c("beta", "HR (95% CI for HR)", "wald.test", 
+                                        "p.value","C_index")
+                          return(res)
+                         })
+res <- t(as.data.frame(univ_results, check.names = FALSE))
+as.data.frame(res)
+```
