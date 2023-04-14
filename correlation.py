@@ -36,4 +36,5 @@ del(baseline_clean,radiomics_clean,mb_clean)
 corr_results = f.correlateFeatures(all_clean)
 
 # export to csv
-corr_results.to_csv('correlation_results_16Mar2023.csv')
+corr_results.to_csv('data/results/correlation_results_16Mar2023.csv')
+all_clean.to_csv('data/results/reduced-feature-set.csv')
