@@ -34,13 +34,11 @@ surv_object_OS <- Surv(time = surv_dat$OS_time, event = surv_dat$OS_status)
 surv_object_PFS <- Surv(time = surv_dat$PFS_time_RECISTv1, event = surv_dat$PFS_status_RECISTv1) 
 ```
 
-```{r}
+```{r 0verall-Survival}
 # create and apply the univariate models
 univ_formulas <- sapply(covariates[2:length(covariates)], function(x) as.formula(paste('surv_object_OS~', x)))
 univ_models <- lapply(univ_formulas, function(x){coxph(x, data = meansd_features)})
-```
 
-```{r}
 # extract the data 
 univ_results <- lapply(univ_models,
                        function(x){ 
@@ -59,6 +57,40 @@ univ_results <- lapply(univ_models,
                                         "p.value","C_index")
                           return(res)
                          })
-res <- t(as.data.frame(univ_results, check.names = FALSE))
-as.data.frame(res)
+os_results <- t(as.data.frame(univ_results, check.names = FALSE))
+os_results <- as.data.frame(os_results)
+
+os_results$p.adjust <- p.adjust(os_results$p.value, method="fdr", n=length(os_results$p.value))
 ```
+
+```{r Progression-Free Survival}
+
+# create and apply the univariate models
+univ_formulas <- sapply(covariates[2:length(covariates)], function(x) as.formula(paste('surv_object_PFS~', x)))
+univ_models <- lapply(univ_formulas, function(x){coxph(x, data = meansd_features)})
+
+# extract the data 
+univ_results <- lapply(univ_models,
+                       function(x){ 
+                          x <- summary(x)
+                          p.value<-signif(x$wald["pvalue"], digits=2)
+                          wald.test<-signif(x$wald["test"], digits=2)
+                          beta<-signif(x$coef[1], digits=2);        #coefficient beta
+                          ci <- signif(x$concordance[1], digits=2)  #concordance index
+                          HR <-signif(x$coef[2], digits=2);         #exp(beta)
+                          HR.confint.lower <- signif(x$conf.int[,"lower .95"], 2)
+                          HR.confint.upper <- signif(x$conf.int[,"upper .95"],2)
+                          HR <- paste0(HR, " (", 
+                                       HR.confint.lower, "-", HR.confint.upper, ")")
+                          res<-c(beta, HR, wald.test, p.value,ci)
+                          names(res)<-c("beta", "HR (95% CI for HR)", "wald.test", 
+                                        "p.value","C_index")
+                          return(res)
+                         })
+pfs_results <- t(as.data.frame(univ_results, check.names = FALSE))
+pfs_results <- as.data.frame(pfs_results)
+
+pfs_results$p.adjust <- p.adjust(pfs_results$p.value, method="fdr", n=length(pfs_results$p.value))
+
+```
+
