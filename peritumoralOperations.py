@@ -6,7 +6,7 @@ def morphOps(mask,region='whole lesion',r=2):
     """
         Apply morphological operations to a binary mask based on the specified region.
         Parameters:
-        - mask (ndarray): Binary mask representing the region of interest.
+        - mask (ndarray): Binary mask representing the region of interest (assumes that mask and image have been resampled to [1,1,1] pixel spacing).
         - region (str): Region of interest to apply morphological operations. Default is 'whole lesion'.
                         Possible values: 'whole lesion', 'lesion core', 'interior rim', 'exterior rim', 'peripheral ring'.
         - r (int): Radius parameter for morphological operations. Default is 2.
@@ -15,20 +15,12 @@ def morphOps(mask,region='whole lesion',r=2):
     """
     
     mask = mask == 1 # force-convert to binary mask
-            
-    if region == 'whole lesion':
-        morphMsk = 1 * mask
-    
-    if region == 'lesion core':
-        morphMsk = 1 * erosion(mask,ball(radius = r))
 
-    if region == 'interior rim':
-        morphMsk = 1 * np.logical_and(mask,~erosion(mask,ball(radius = r)))
+    morphFunctions = { 'whole lesion' :  lambda x: 1 * x,
+                       'lesion core' :  lambda x: 1 * erosion(x,ball(radius = r)),
+                       'interior rim' :  lambda x: 1 * np.logical_and(x,~erosion(x,ball(radius = r))),
+                       'exterior rim' :  lambda x: 1 * np.logical_and(~x,dilation(x,ball(radius = r))),
+                       'peripheral ring' :  lambda x: 1 * np.logical_and(~erosion(x,ball(radius = r)),dilation(x,ball(radius = r))) 
+                       }     
         
-    if region == 'exterior rim':
-        morphMsk = 1 * np.logical_and(~mask,dilation(mask,ball(radius = r)))
-        
-    if region == 'peripheral ring':
-        morphMsk = 1 * np.logical_and(~erosion(mask,ball(radius = r)),dilation(mask,ball(radius = r)))   
-        
-    return morphMsk
+    return morphFunctions[region](mask)  
